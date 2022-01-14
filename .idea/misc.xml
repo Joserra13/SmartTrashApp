@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_customer.xml" value="0.2" />
+        <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_log_in.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_login.xml" value="0.19293478260869565" />
         <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_main2.xml" value="0.19293478260869565" />
         <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_workers_intro.xml" value="0.25" />
         <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/activity_workers_list.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/Joser/Documents/AndroidStudio Projects/SmartTrashApp/app/src/main/res/layout/item_card.xml" value="0.19655797101449277" />
