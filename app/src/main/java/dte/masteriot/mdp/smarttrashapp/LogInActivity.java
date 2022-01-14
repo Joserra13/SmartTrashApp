@@ -2,17 +2,22 @@ package dte.masteriot.mdp.smarttrashapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
@@ -45,7 +50,30 @@ public class LogInActivity extends AppCompatActivity {
 
         ThingsboardService tbs = ServiceGenerator.createService(ThingsboardService.class);
         Call<JsonObject> resp = tbs.getToken(new Usuario(Username.getText().toString(), Password.getText().toString()));
-        //This enqueues of the Callback means we are making
+        //This enqueues of the Callback means we are making an asynchronous request (which won't block the UI-Thread)
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.code() == 200){
+                    try{
+                        //Here we get the token from the response
+                        String token = (new JSONObject(response.body().toString())).getString("token");
+                        Log.d("RESPONSE::", "Starting activity... with token: " + token);
+                        startActivity(new Intent(LogInActivity.this, MainActivity.class));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else{
+                    Log.d("ERROR with code: ", String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE::ERROR", "It did not work");
+            }
+        });
     }
 
     public interface ThingsboardService{
@@ -57,26 +85,26 @@ public class LogInActivity extends AppCompatActivity {
         //Paper BIN
         @Headers({"Accept: application/json"})
         @GET("plugins/telemetry/DEVICE/5c0bf7a0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-        Call<JsonObject> getLatestTel (@Header("X-Authorization") String token,
+        Call<JsonObject> getLatestPaperTel (@Header("X-Authorization") String token,
                                        @Path("id") String id);
-//
-//        //Glass
-//        @Headers({"Accept: application/json"})
-//        @GET ("plugins/telemetry/DEVICE/41ff1d10-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-//        Call<JsonObject> getLatestTel (@Header("X-Authorization") String token,
-//                                       @Path ("id") String id);
-//
-//        //Plastic
-//        @Headers({"Accept: application/json"})
-//        @GET ("plugins/telemetry/DEVICE/2e4cd8c0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-//        Call<JsonObject> getLatestTel (@Header("X-Authorization") String token,
-//                                       @Path ("id") String id);
-//
-//        //Organic
-//        @Headers({"Accept: application/json"})
-//        @GET ("plugins/telemetry/DEVICE/f9419f10-7309-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-//        Call<JsonObject> getLatestTel (@Header("X-Authorization") String token,
-//                                       @Path ("id") String id);
+
+        //Glass
+        @Headers({"Accept: application/json"})
+        @GET ("plugins/telemetry/DEVICE/41ff1d10-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
+        Call<JsonObject> getLatestGlassTel (@Header("X-Authorization") String token,
+                                       @Path ("id") String id);
+
+        //Plastic
+        @Headers({"Accept: application/json"})
+        @GET ("plugins/telemetry/DEVICE/2e4cd8c0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
+        Call<JsonObject> getLatestPlasticTel (@Header("X-Authorization") String token,
+                                       @Path ("id") String id);
+
+        //Organic
+        @Headers({"Accept: application/json"})
+        @GET ("plugins/telemetry/DEVICE/f9419f10-7309-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
+        Call<JsonObject> getLatestOrganicTel (@Header("X-Authorization") String token,
+                                       @Path ("id") String id);
     }
 
     public static class ServiceGenerator {

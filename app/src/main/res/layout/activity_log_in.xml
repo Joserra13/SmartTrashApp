@@ -9,28 +9,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Username"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:layout_margin="20dp"/>
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_margin="20dp"/>
 
         <Button
             android:id="@+id/bLogIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Log In"
-            android:onClick="loginFunction"/>
+            android:onClick="loginFunction"
+            android:layout_margin="20dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
