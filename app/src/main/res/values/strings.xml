@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SmartTrashApp</string>
+    <string name="title_activity_neighbour">NeighbourActivity</string>
+    <string name="tab_text_1">Plactic</string>
+    <string name="tab_text_2">Organic</string>
+    <string name="tab_text_3">Paper</string>
+    <string name="tab_text_4">Glass</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
