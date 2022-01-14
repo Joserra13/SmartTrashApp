@@ -42,8 +42,6 @@ public class LogInActivity extends AppCompatActivity {
         bLogIn = findViewById(R.id.bLogIn);
         Username = findViewById(R.id.etUsername);
         Password = findViewById(R.id.etPassword);
-
-
     }
 
     public void loginFunction(View view) {
