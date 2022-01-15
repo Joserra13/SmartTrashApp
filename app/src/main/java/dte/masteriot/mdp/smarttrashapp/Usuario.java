@@ -1,19 +1,19 @@
 package dte.masteriot.mdp.smarttrashapp;
 
 public class Usuario {
-    private String Name;
-    private String Password;
+    private String username;
+    private String password;
 
     public Usuario(String Name, String Password){
-        this.Name = Name;
-        this.Password = Password;
+        this.username = Name;
+        this.password = Password;
     }
 
     public String getName(){
-        return Name;
+        return username;
     }
     public String getPassword(){
-        return Password;
+        return password;
     }
 
 }

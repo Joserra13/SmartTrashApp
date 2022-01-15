@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,48 +73,5 @@ public class LogInActivity extends AppCompatActivity {
                 Log.d("RESPONSE::ERROR", "It did not work");
             }
         });
-    }
-
-    public interface ThingsboardService{
-
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
-        @POST("auth/login")
-        Call<JsonObject> getToken (@Body Usuario user);
-
-        //Paper BIN
-        @Headers({"Accept: application/json"})
-        @GET("plugins/telemetry/DEVICE/5c0bf7a0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-        Call<JsonObject> getLatestPaperTel (@Header("X-Authorization") String token,
-                                       @Path("id") String id);
-
-        //Glass
-        @Headers({"Accept: application/json"})
-        @GET ("plugins/telemetry/DEVICE/41ff1d10-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-        Call<JsonObject> getLatestGlassTel (@Header("X-Authorization") String token,
-                                       @Path ("id") String id);
-
-        //Plastic
-        @Headers({"Accept: application/json"})
-        @GET ("plugins/telemetry/DEVICE/2e4cd8c0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-        Call<JsonObject> getLatestPlasticTel (@Header("X-Authorization") String token,
-                                       @Path ("id") String id);
-
-        //Organic
-        @Headers({"Accept: application/json"})
-        @GET ("plugins/telemetry/DEVICE/f9419f10-7309-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-        Call<JsonObject> getLatestOrganicTel (@Header("X-Authorization") String token,
-                                       @Path ("id") String id);
-    }
-
-    public static class ServiceGenerator {
-        private static final String BASE_URI = "https://srv-iot.diatel.upm.es/api/"; // "http://192.168.1.92:8080/api/"; //
-        private static Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(BASE_URI)
-                .client(new OkHttpClient()) //.Builder().addInterceptor((new HttpLoggingInterceptor()).setLevel(HttpLoggingInterceptor.Level.BODY)).build())
-                .addConverterFactory(GsonConverterFactory.create());
-        public static <S> S createService(Class <S> serviceClass) {
-            Retrofit adapter = builder.build();
-            return adapter.create(serviceClass);
-        }
     }
 }
