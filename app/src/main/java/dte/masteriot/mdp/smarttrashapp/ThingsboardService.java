@@ -19,24 +19,20 @@ public interface ThingsboardService {
     //Paper BIN
     @Headers({"Accept: application/json"})
     @GET("plugins/telemetry/DEVICE/5c0bf7a0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-    Call<JsonObject> getLatestPaperTel (@Header("X-Authorization") String token,
-                                        @Path("id") String id);
+    Call<JsonObject> getLatestPaperTel (@Header("X-Authorization") String token);
 
     //Glass
     @Headers({"Accept: application/json"})
     @GET ("plugins/telemetry/DEVICE/41ff1d10-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-    Call<JsonObject> getLatestGlassTel (@Header("X-Authorization") String token,
-                                        @Path ("id") String id);
+    Call<JsonObject> getLatestGlassTel (@Header("X-Authorization") String token);
 
     //Plastic
     @Headers({"Accept: application/json"})
     @GET ("plugins/telemetry/DEVICE/2e4cd8c0-730d-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-    Call<JsonObject> getLatestPlasticTel (@Header("X-Authorization") String token,
-                                          @Path ("id") String id);
+    Call<JsonObject> getLatestPlasticTel (@Header("X-Authorization") String token);
 
     //Organic
     @Headers({"Accept: application/json"})
     @GET ("plugins/telemetry/DEVICE/f9419f10-7309-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
-    Call<JsonObject> getLatestOrganicTel (@Header("X-Authorization") String token,
-                                          @Path ("id") String id);
+    Call<JsonObject> getLatestOrganicTel (@Header("X-Authorization") String token);
 }
