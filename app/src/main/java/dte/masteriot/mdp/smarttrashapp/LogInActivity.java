@@ -50,7 +50,7 @@ public class LogInActivity extends AppCompatActivity {
     public void loginFunction(View view) {
 
         ThingsboardService tbs = ServiceGenerator.createService(ThingsboardService.class);
-        Call<JsonObject> resp = tbs.getToken(new Usuario(/*Username.getText().toString()*/"j.hoz@alumnos.upm.es", "9797979713Jrh#"/*Password.getText().toString()*/));
+        Call<JsonObject> resp = tbs.getToken(new Usuario(Username.getText().toString(), Password.getText().toString()));
         //This enqueues of the Callback means we are making an asynchronous request (which won't block the UI-Thread)
         resp.enqueue(new Callback<JsonObject>() {
             @Override
