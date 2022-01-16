@@ -6,12 +6,18 @@ import static dte.masteriot.mdp.smarttrashapp.R.color.green_001;
 import static dte.masteriot.mdp.smarttrashapp.R.color.yellow_001;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +53,10 @@ public class CustomerActivity extends AppCompatActivity {
 
     int binCapacity;
 
+    NotificationManagerCompat notificationManager;
+
+    String title = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,20 +70,40 @@ public class CustomerActivity extends AppCompatActivity {
         serviceTodayLY = findViewById(R.id.serviceTodayLY);
         serviceToday = findViewById(R.id.serviceToday);
 
+        notificationManager = NotificationManagerCompat.from(this);
+
         getTheData(0);
     }
 
-    private void printBinCapacity(int binCapacity) {
+    private void printBinCapacity(int binCapacity, int choice) {
         if(binCapacity == 0){
             cStorage.setImageResource(R.drawable.c0);
-        }else if(binCapacity > 0 && binCapacity <= 25) {
+        }else if(binCapacity > 0 && binCapacity <= 25){
             cStorage.setImageResource(R.drawable.c25);
-        }else if(binCapacity > 25 && binCapacity <= 50) {
+        }else if(binCapacity > 25 && binCapacity <= 50){
             cStorage.setImageResource(R.drawable.c50);
-        }else if(binCapacity > 50 && binCapacity < 80) {
+        }else if(binCapacity > 50 && binCapacity < 80){
             cStorage.setImageResource(R.drawable.c75);
         }else if(binCapacity >= 80) {
             cStorage.setImageResource(R.drawable.c100);
+        }
+
+        if(binCapacity == 100){
+
+            Intent intent = new Intent(this, CustomerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,0);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title + " is full")
+                    .setContentText("Please take the trash out")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+            notificationManager.notify(choice, builder.build());
         }
     }
 
@@ -120,15 +150,19 @@ public class CustomerActivity extends AppCompatActivity {
 
         if(choice == 0){
             //Plastic
+            title = "Plastic bin";
             jsonResult = tbs.getLatestPlasticTel(token);
         }else if(choice == 1){
             //Paper
+            title = "Paper bin";
             jsonResult = tbs.getLatestPaperTel(token);
         }else if(choice == 2){
             //Organic
+            title = "Organic bin";
             jsonResult = tbs.getLatestOrganicTel(token);
         }else if(choice == 3){
             //Glass
+            title = "Glass bin";
             jsonResult = tbs.getLatestGlassTel(token);
         }
         //This enqueues of the Callback means we are making an asynchronous request (which won't block the UI-Thread)
@@ -143,7 +177,7 @@ public class CustomerActivity extends AppCompatActivity {
                         JSONObject telemetry = capacityArray.getJSONObject(0);
 
                         binCapacity = telemetry.getInt("value");
-                        printBinCapacity(binCapacity);
+                        printBinCapacity(binCapacity, choice);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
