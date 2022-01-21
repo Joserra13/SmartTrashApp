@@ -20,7 +20,8 @@
         android:theme="@style/Theme.SmartTrashApp">
         <activity
             android:name=".ContainerActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
