@@ -5,14 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +28,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WorkersIntro extends AppCompatActivity implements ItemViewHolder.ItemClickListener{
 
@@ -37,6 +45,11 @@ public class WorkersIntro extends AppCompatActivity implements ItemViewHolder.It
     Button bParse;
 
     TextView parseo;
+
+    Call<JsonObject> containerData;
+
+    int organic, plastic, paper, glass;
+    float temp, hum, xAxis, yAxis, zAxis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +102,21 @@ public class WorkersIntro extends AppCompatActivity implements ItemViewHolder.It
 
                 }
 
-                listOfItems.add(new Item(containerNames, location));
+                //Plastic
+                //getStreetContainersData(0);
+                //Paper
+                //getStreetContainersData(1);
+                //Organic
+                //getStreetContainersData(2);
+                //Glass
+                //getStreetContainersData(3);
+                //Temp
+                //getStreetContainersData(4);
+                //Hum
+                //getStreetContainersData(5);
+
+
+                listOfItems.add(new Item(containerNames, location, 0, 0, 0, 0, 0, 0, 0, 0, 0));
             }
 
         } catch (JSONException e) {
@@ -97,6 +124,66 @@ public class WorkersIntro extends AppCompatActivity implements ItemViewHolder.It
         }
 
         myAdapter.notifyDataSetChanged();
+    }
+
+    private void getStreetContainersData(int choice) {
+
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        String token = sharedPref.getString("token", "defToken");
+        token = "Bearer " + token;
+        ThingsboardService tbs = ServiceGenerator.createService(ThingsboardService.class);
+
+        //Llamada get the info
+        if(choice == 0){
+            //Plastic
+            //containerData = tbs.getPlasticStreetContainersLatestTelemetry(token);
+        }else if(choice == 1){
+            //Paper
+            //containerData = tbs.getPaperStreetContainersLatestTelemetry(token);
+        }else if(choice == 2){
+            //Organic
+            //containerData = tbs.getOrganicStreetContainersLatestTelemetry(token);
+        }else if(choice == 3){
+            //Glass
+            //containerData = tbs.getGlassStreetContainersLatestTelemetry(token);
+        }else if(choice == 4){
+            //Temp
+            //containerData = tbs.getTempStreetContainersLatestTelemetry(token);
+        }else if(choice == 5){
+            //Hum
+            //containerData = tbs.getHumStreetContainersLatestTelemetry(token);
+        }
+
+        //This enqueues of the Callback means we are making an asynchronous request (which won't block the UI-Thread)
+        containerData.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.code() == 200){
+                    //Parse de JSON to obtain the container's telemetry
+                    if(choice == 0){
+                        //Plastic
+                    }else if(choice == 1){
+                        //Paper
+                    }else if(choice == 2){
+                        //Organic
+                    }else if(choice == 3){
+                        //Glass
+                    }else if(choice == 4){
+                        //Temp
+                    }else if(choice == 5){
+                        //Hum
+                    }
+
+                } else{
+                    Log.d("ERROR with code: ", String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("RESPONSE::ERROR", "It did not work");
+            }
+        });
     }
 
     public String loadJSONFromAsset() {
@@ -123,8 +210,17 @@ public class WorkersIntro extends AppCompatActivity implements ItemViewHolder.It
         //Toast.makeText(this, String.valueOf(item.getLocation()), Toast.LENGTH_SHORT).show();
         Intent i = new Intent(WorkersIntro.this,MapsActivity.class);
 
-        i.putExtra("container_name", String.valueOf(container.getDisplayText()));
+        i.putExtra("containerName", String.valueOf(container.getDisplayText()));
         i.putExtra("location", String.valueOf(container.getLocation()));
+        i.putExtra("orgLevel", String.valueOf(container.getOrgLevel()));
+        i.putExtra("plasLevel", String.valueOf(container.getPlaLevel()));
+        i.putExtra("papLevel", String.valueOf(container.getPapLevel()));
+        i.putExtra("glaLevel", String.valueOf(container.getGlaLevel()));
+        i.putExtra("temp", String.valueOf(container.getTemp()));
+        i.putExtra("hum", String.valueOf(container.getHum()));
+        i.putExtra("xAxis", String.valueOf(container.getX()));
+        i.putExtra("yAxis", String.valueOf(container.getY()));
+        i.putExtra("zAxis", String.valueOf(container.getZ()));
 
         startActivity(i);
     }
