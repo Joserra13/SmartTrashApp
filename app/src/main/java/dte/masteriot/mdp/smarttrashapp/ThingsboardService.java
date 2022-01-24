@@ -35,4 +35,27 @@ public interface ThingsboardService {
     @Headers({"Accept: application/json"})
     @GET ("plugins/telemetry/DEVICE/f9419f10-7309-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity")
     Call<JsonObject> getLatestOrganicTel (@Header("X-Authorization") String token);
+
+    //STREET Plastic Container
+    @Headers({"Accept: application/json"})
+    @GET ("plugins/telemetry/DEVICE/6e2b9ca0-7971-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity,humidity,temperature,X,Y,Z")
+    Call<JsonObject> getPlasticStreetContainersLatestTelemetry (@Header("X-Authorization") String token);
+
+    //STREET Paper Container
+    @Headers({"Accept: application/json"})
+    @GET ("plugins/telemetry/DEVICE/1810a5d0-790e-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity,humidity,temperature,X,Y,Z")
+    Call<JsonObject> getPaperStreetContainersLatestTelemetry (@Header("X-Authorization") String token);
+
+    //STREET Organic Container
+    @Headers({"Accept: application/json"})
+    @GET ("plugins/telemetry/DEVICE/3c23e860-7891-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity,humidity,temperature,X,Y,Z")
+    Call<JsonObject> getOrganicStreetContainersLatestTelemetry (@Header("X-Authorization") String token);
+
+    //STREET Organic Container
+    @Headers({"Accept: application/json"})
+    @GET ("plugins/telemetry/DEVICE/ddca70e0-7971-11ec-9a04-591db17ccd5b/values/timeseries?keys=capacity,humidity,temperature,X,Y,Z")
+    Call<JsonObject> getGlassStreetContainersLatestTelemetry (@Header("X-Authorization") String token);
+
+
+
 }

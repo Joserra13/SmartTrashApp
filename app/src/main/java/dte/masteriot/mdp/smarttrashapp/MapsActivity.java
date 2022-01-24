@@ -21,7 +21,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
 
     Intent inputIntent;
-    String name, lat, lon, orgLevel, plasLevel, papLevel, glaLevel, temp, hum, xAxis, yAxis, zAxis;
+    String name;
+    String lat;
+    String lon;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lat = location.substring(0, location.indexOf(","));
         lon = location.substring(location.indexOf(",")+1);
 
-        orgLevel = inputIntent.getStringExtra("orgLevel");
-        plasLevel = inputIntent.getStringExtra("plasLevel");
-        papLevel = inputIntent.getStringExtra("papLevel");
-        glaLevel = inputIntent.getStringExtra("glaLevel");
+        position = inputIntent.getIntExtra("position", 0);
 
-        temp = inputIntent.getStringExtra("temp");
-        hum = inputIntent.getStringExtra("hum");
-
-        xAxis = inputIntent.getStringExtra("xAxis");
-        yAxis = inputIntent.getStringExtra("yAxis");
-        zAxis = inputIntent.getStringExtra("zAxis");
     }
 
     /**
@@ -91,15 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             // Adding values to the intent to pass them to VisitActivity
             i.putExtra("containerName", name);
-            i.putExtra("orgLevel", orgLevel);
-            i.putExtra("plasLevel", plasLevel);
-            i.putExtra("papLevel", papLevel);
-            i.putExtra("glaLevel", glaLevel);
-            i.putExtra("temp", temp);
-            i.putExtra("hum", hum);
-            i.putExtra("xAxis", xAxis);
-            i.putExtra("yAxis", yAxis);
-            i.putExtra("zAxis", zAxis);
+            i.putExtra("position", position);
 
             // Once the intent is parametrized, start the VisitActivity:
             startActivity(i);
